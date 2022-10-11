@@ -7,6 +7,7 @@ import { PetsModule } from './pets/pets.module';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeORMConfig } from './configs/typeorm.config';
+import { OwnersModule } from './owners/owners.module';
 
 @Module({
   imports: [ GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -14,7 +15,8 @@ import { typeORMConfig } from './configs/typeorm.config';
     autoSchemaFile: 'schema.gql',
   }),
   TypeOrmModule.forRoot(typeORMConfig),
-  PetsModule],
+  PetsModule,
+  OwnersModule],
   controllers: [AppController],
   providers: [AppService],
 })
