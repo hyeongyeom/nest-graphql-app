@@ -3,7 +3,7 @@ import { Column } from 'typeorm';
 
 @InputType()
 export class CreateOwnerInput {
-    @Column()
-    @Field()
-    name:string;
+  @Column()
+  @Field()
+  name: string;
 }

@@ -5,23 +5,23 @@ import { Owner } from './../owners/entities/owner.entity';
 @Entity()
 @ObjectType()
 export class Pet {
-    @PrimaryGeneratedColumn()
-    @Field(type => Int)
-    id:number;
+  @PrimaryGeneratedColumn()
+  @Field((type) => Int)
+  id: number;
 
-    @Column()
-    @Field()
-    name:string;
+  @Column()
+  @Field()
+  name: string;
 
-    @Column({nullable:true})
-    @Field({nullable:true})
-    type?:string;
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  type?: string;
 
-    @Column()
-    @Field()
-    ownerId:number;
+  @Column()
+  @Field()
+  ownerId: number;
 
-    @ManyToOne(()=>Owner, owner=>owner.pets)
-    @Field(type=>Owner)
-    owner:Owner;
+  @ManyToOne(() => Owner, (owner) => owner.pets)
+  @Field((type) => Owner)
+  owner: Owner;
 }

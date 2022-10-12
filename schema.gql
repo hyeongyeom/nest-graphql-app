@@ -5,6 +5,7 @@
 type Owner {
   id: Int!
   name: String!
+  nickname: String!
   pets: [Pet!]
 }
 

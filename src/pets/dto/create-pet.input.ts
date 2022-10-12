@@ -3,13 +3,13 @@ import { IsAlpha } from 'class-validator';
 
 @InputType()
 export class CreatePetInput {
-    @IsAlpha()
-    @Field()
-    name:string;
+  @IsAlpha()
+  @Field()
+  name: string;
 
-    @Field({nullable:true})
-    type?:string;
+  @Field({ nullable: true })
+  type?: string;
 
-    @Field(type=>Int)
-    ownerId:number;
+  @Field((type) => Int)
+  ownerId: number;
 }

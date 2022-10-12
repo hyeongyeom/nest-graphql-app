@@ -8,25 +8,26 @@ import { Owner } from '../owners/entities/owner.entity';
 
 @Injectable()
 export class PetsService {
-    constructor(@InjectRepository(Pet) private petsRepository:Repository<Pet>,private ownerService:OwnersService) {}
+  constructor(
+    @InjectRepository(Pet) private petsRepository: Repository<Pet>,
+    private ownerService: OwnersService,
+  ) {}
 
-    createPet(createPetInput:CreatePetInput): Promise<Pet> {
-        const newPet=this.petsRepository.create(createPetInput);
+  createPet(createPetInput: CreatePetInput): Promise<Pet> {
+    const newPet = this.petsRepository.create(createPetInput);
 
-        return this.petsRepository.save(newPet);
-    }
+    return this.petsRepository.save(newPet);
+  }
 
-    async findAll():Promise<Pet[]> {
-        return this.petsRepository.find();
-    }
+  async findAll(): Promise<Pet[]> {
+    return this.petsRepository.find();
+  }
 
-    findOne(id:number):Promise<Pet> {
-        return this.petsRepository.findOneBy({id});
-    }
+  findOne(id: number): Promise<Pet> {
+    return this.petsRepository.findOne(id);
+  }
 
-
-    getOwner(ownerId:number):Promise<Owner> {
-        return this.ownerService.findOne(ownerId);
-    }
-
+  getOwner(ownerId: number): Promise<Owner> {
+    return this.ownerService.findOne(ownerId);
+  }
 }
