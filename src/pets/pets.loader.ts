@@ -1,11 +1,12 @@
+import { Injectable, Scope } from '@nestjs/common';
 import DataLoader from 'dataloader';
-import { Pet } from 'src/pets/entities/pet.entity';
 import { PetsService } from 'src/pets/pets.service';
 
-export class PetsLoaders {
+@Injectable({ scope: Scope.REQUEST })
+export class PetsLoader {
   constructor(private readonly petsService: PetsService) {}
 
-  public readonly batchPets = new DataLoader(
+  public readonly findByPetId  = new DataLoader(
     async (petsIds: readonly number[]) => {
       const pets = await this.petsService.loadByIds(petsIds);
       const petMap = new Map(pets.map((pet) => [pet.id, pet]));

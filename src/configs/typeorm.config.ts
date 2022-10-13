@@ -9,7 +9,7 @@ export const typeORMConfig: TypeOrmModuleOptions = {
   password: '123123',
   database: 'nest-graphql',
   entities: [__dirname + '/../**/*.entity.{js,ts}'],
-  synchronize: false,
+  synchronize: true,
 };
 
 export const OrmConfig = {

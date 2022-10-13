@@ -11,10 +11,14 @@ import { Pet } from './entities/pet.entity';
 import { PetsService } from './pets.service';
 import { CreatePetInput } from './dto/create-pet.input';
 import { Owner } from 'src/owners/entities/owner.entity';
+import { PetsLoader } from './pets.loader';
 
 @Resolver((of) => Pet)
 export class PetsResolver {
-  constructor(private petService: PetsService) {}
+  constructor(
+    private petService: PetsService,
+    private petsloader:PetsLoader
+    ) {}
 
   @Query((returns) => Pet)
   getPet(@Args('id', { type: () => Int }) id: number): Promise<Pet> {
@@ -26,9 +30,16 @@ export class PetsResolver {
     return this.petService.findAll();
   }
 
+  // @ResolveField((returns) => Owner)
+  // owner(@Parent() pet: Pet): Promise<Owner> {
+  //   return this.petService.getOwner(pet.ownerId);
+  // }
+
   @ResolveField((returns) => Owner)
-  owner(@Parent() pet: Pet): Promise<Owner> {
-    return this.petService.getOwner(pet.ownerId);
+  owner(@Parent() pet: Pet) {
+    return this.petsloader.findByPetId.load(
+      pet.id
+    )
   }
 
   @Mutation((returns) => Pet)
