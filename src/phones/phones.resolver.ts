@@ -1,8 +1,17 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  Parent,
+  ResolveField,
+} from '@nestjs/graphql';
 import { PhonesService } from './phones.service';
 import { Phone } from './entities/phone.entity';
 import { CreatePhoneInput } from './dto/create-phone.input';
 import { UpdatePhoneInput } from './dto/update-phone.input';
+import { Owner } from 'src/owners/entities/owner.entity';
 
 @Resolver(() => Phone)
 export class PhonesResolver {
@@ -21,6 +30,11 @@ export class PhonesResolver {
   @Query(() => Phone, { name: 'phone' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.phonesService.findOne(id);
+  }
+
+  @ResolveField((returns) => Owner)
+  owner(@Parent() phone: Phone): Promise<Owner> {
+    return this.phonesService.getOwner(phone.ownerId);
   }
 
   @Mutation(() => Phone)

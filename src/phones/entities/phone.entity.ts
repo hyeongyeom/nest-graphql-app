@@ -1,6 +1,13 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
 import { IsEnum } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Owner } from 'src/owners/entities/owner.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Color } from '../enums/color.enum';
 
 @Entity()
@@ -23,4 +30,12 @@ export class Phone {
   })
   @IsEnum(Color)
   color?: Color;
+
+  @Column()
+  @Field()
+  ownerId: number;
+
+  @ManyToOne(() => Owner, (owner) => owner.phone)
+  @Field((type) => Owner)
+  owner: Owner;
 }

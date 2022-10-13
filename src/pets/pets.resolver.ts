@@ -7,7 +7,7 @@ import {
   Parent,
   ResolveField,
 } from '@nestjs/graphql';
-import { Pet } from './pet.entity';
+import { Pet } from './entities/pet.entity';
 import { PetsService } from './pets.service';
 import { CreatePetInput } from './dto/create-pet.input';
 import { Owner } from 'src/owners/entities/owner.entity';

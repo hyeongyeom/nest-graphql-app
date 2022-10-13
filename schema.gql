@@ -2,11 +2,36 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Phone {
+  id: Int!
+  name: String!
+
+  """휴대폰 색"""
+  color: Color
+  ownerId: Float!
+  owner: Owner!
+}
+
+"""휴대폰 색"""
+enum Color {
+  """검정색"""
+  Black
+
+  """하얀색"""
+  White
+
+  """빨강색"""
+  Red
+
+  """파란색"""
+  Blue
+}
+
 type Owner {
   id: Int!
   name: String!
-  nickname: String!
   pets: [Pet!]
+  phone: [Phone!]
 }
 
 type Pet {
@@ -22,6 +47,8 @@ type Query {
   pets: [Pet!]!
   owners: [Owner!]!
   owner(id: Int!): Owner!
+  phones: [Phone!]!
+  phone(id: Int!): Phone!
 }
 
 type Mutation {
@@ -29,6 +56,9 @@ type Mutation {
   createOwner(createOwnerInput: CreateOwnerInput!): Owner!
   updateOwner(updateOwnerInput: UpdateOwnerInput!): Owner!
   removeOwner(id: Int!): Owner!
+  createPhone(createPhoneInput: CreatePhoneInput!): Phone!
+  updatePhone(updatePhoneInput: UpdatePhoneInput!): Phone!
+  removePhone(id: Int!): Phone!
 }
 
 input CreatePetInput {
@@ -44,4 +74,21 @@ input CreateOwnerInput {
 input UpdateOwnerInput {
   name: String
   id: Int!
+}
+
+input CreatePhoneInput {
+  name: String!
+
+  """휴대폰 색"""
+  color: Color
+  ownerId: Float!
+}
+
+input UpdatePhoneInput {
+  id: Int!
+  name: String
+
+  """휴대폰 색"""
+  color: Color
+  ownerId: Float
 }
