@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CreateOwnerInput } from './dto/create-owner.input';
 import { UpdateOwnerInput } from './dto/update-owner.input';
 import { Owner } from './entities/owner.entity';
@@ -30,4 +30,13 @@ export class OwnersService {
   remove(id: number) {
     return this.ownerRepository.delete({ id });
   }
+
+  async loadByIds(ids: readonly number[]) {
+    return await this.ownerRepository.find({
+      where: {
+        id: In([...ids]),
+      },
+    });
+  }
+
 }

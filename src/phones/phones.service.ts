@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Owner } from 'src/owners/entities/owner.entity';
 import { OwnersService } from 'src/owners/owners.service';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CreatePhoneInput } from './dto/create-phone.input';
 import { UpdatePhoneInput } from './dto/update-phone.input';
 import { Phone } from './entities/phone.entity';
@@ -37,5 +37,13 @@ export class PhonesService {
 
   remove(id: number) {
     return this.phoneRepository.delete({ id });
+  }
+
+  async loadByIds(ids: readonly number[]) {
+    return await this.phoneRepository.find({
+      where: {
+        ownerId: In([...ids]),
+      },
+    });
   }
 }

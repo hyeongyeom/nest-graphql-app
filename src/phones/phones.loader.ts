@@ -3,9 +3,8 @@ import DataLoader from 'dataloader';
 import { OwnersService } from 'src/owners/owners.service';
 
 @Injectable({ scope: Scope.REQUEST })
-export class PetsLoader {
-  constructor(
-    private readonly ownerService:OwnersService) {}
+export class PhonesLoader {
+  constructor(private readonly ownerService:OwnersService) {}
 
   public readonly findByOwnerId  = new DataLoader(
     async (ownersIds: readonly number[]) => {

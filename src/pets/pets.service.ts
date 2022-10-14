@@ -34,8 +34,9 @@ export class PetsService {
   async loadByIds(ids: readonly number[]) {
     return await this.petsRepository.find({
       where: {
-        id: In([...ids]),
+        ownerId: In([...ids]),
       },
     });
   }
+
 }

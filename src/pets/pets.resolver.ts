@@ -37,8 +37,8 @@ export class PetsResolver {
 
   @ResolveField((returns) => Owner)
   owner(@Parent() pet: Pet) {
-    return this.petsloader.findByPetId.load(
-      pet.id
+    return this.petsloader.findByOwnerId.load(
+      pet.ownerId
     )
   }
 
