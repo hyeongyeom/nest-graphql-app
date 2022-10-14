@@ -9,20 +9,17 @@ jobs:
   deploy-backend-dev:
     name: Deploy Backend to Dev
     runs-on: ubuntu-latest
-    
-
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
+    environment: development
     
     steps:
     - uses: actions/checkout@v3
-
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Setup node
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 16.x
+        cache: yarn
+    steps:
+      - run: echo 'hello world'        
+  
 
-    - name: Build
-      run: |
-        npm install
+    
