@@ -19,7 +19,7 @@ jobs:
         node-version: 16.x
         cache: yarn
     steps:
-      - run: echo 'hello world'        
+      - run: echo "hello world"
   
 
     
