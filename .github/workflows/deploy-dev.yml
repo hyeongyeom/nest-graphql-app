@@ -57,7 +57,7 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ./config/task-definition-dev.json
+          task-definition: config/task-definition-dev.json
           container-name: gyeom-dev-container
           image: ${{ steps.build-image.outputs.image }}
 
