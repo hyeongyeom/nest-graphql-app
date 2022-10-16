@@ -10,16 +10,61 @@ jobs:
     name: Deploy Backend to Dev
     runs-on: ubuntu-latest
     environment: development
-    
-    steps:
-    - uses: actions/checkout@v3
-    - name: Setup node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16.x
-        cache: yarn
-    steps:
-      - run: echo "hello world"
-  
 
-    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: yarn
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Create env file
+        working-directory: ./
+        run: \n
+          touch .env.dev
+          echo "NODE_ENV=dev" >> .env.dev
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env.dev
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env.dev
+
+      - name: Build, tag, and push image to Amazon ECR
+        working-directory: ./
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: test-gyeom-app
+          IMAGE_TAG: latest
+        run: |
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ./config/task-definition-dev.json
+          container-name: gyeom-dev-container
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: test-dev-service
+          cluster: test-gyeom-app
+          wait-for-service-stability: true
