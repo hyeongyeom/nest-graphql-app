@@ -5,7 +5,7 @@
     "containerDefinitions": [
       {
         "name": "test-dev-app",
-        "image": "653596545246.dkr.ecr.ap-southeast-2.amazonaws.com/test-gyeom-app",
+        "image": "653596545246.dkr.ecr.ap-southeast-2.amazonaws.com/test-gyeom-app:latest",
         "memoryReservation": "512",
         "resourceRequirements": null,
         "essential": true,
