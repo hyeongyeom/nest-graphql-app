@@ -43,7 +43,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: test-dev-app
+          ECR_REPOSITORY: test-gyeom-app
           IMAGE_TAG: latest
         run: |
           # Build a docker container and
